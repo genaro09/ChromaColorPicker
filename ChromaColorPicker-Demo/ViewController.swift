@@ -26,10 +26,11 @@ class ViewController: UIViewController {
         colorPicker.delegate = self
         
         /* Customize the view (optional) */
-        colorPicker.padding = 10
+        colorPicker.padding = 35
+        colorPicker.hexLabel.isHidden = true
         colorPicker.stroke = 3 //stroke of the rainbow circle
-        colorPicker.currentAngle = Float.pi
-        
+//        colorPicker.currentAngle = Float.pi
+
         /* Customize for grayscale (optional) */
         colorPicker.supportsShadesOfGray = true // false by default
         //colorPicker.colorToggleButton.grayColorGradientLayer.colors = [UIColor.lightGray.cgColor, UIColor.gray.cgColor] // You can also override gradient colors

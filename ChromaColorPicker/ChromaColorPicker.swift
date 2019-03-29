@@ -33,7 +33,6 @@ open class ChromaColorPicker: UIControl {
     open var hexLabel: UILabel!
     open var shadeSlider: ChromaShadeSlider!
     open var handleView: ChromaHandle!
-    open var handleLine: CAShapeLayer!
     open var addButton: ChromaAddButton!
     open var colorToggleButton: ColorModeToggleButton!
     
@@ -95,11 +94,6 @@ open class ChromaColorPicker: UIControl {
         self.layoutAddButton() //layout frame
         addButton.addTarget(self, action: #selector(ChromaColorPicker.addButtonPressed(_:)), for: .touchUpInside)
         
-        /* Setup Handle Line */
-        handleLine = CAShapeLayer()
-        handleLine.lineWidth = 2
-        handleLine.strokeColor = UIColor.white.withAlphaComponent(0.2).cgColor
-        
         /* Setup Color Hex Label */
         hexLabel = UILabel()
         self.layoutHexLabel() //layout frame
@@ -122,7 +116,7 @@ open class ChromaColorPicker: UIControl {
         colorToggleButton.isHidden = !supportsShadesOfGray // default to hiding if not supported
         
         /* Add components to view */
-        self.layer.addSublayer(handleLine)
+//        self.layer.addSublayer(handleLine)
         self.addSubview(shadeSlider)
         self.addSubview(hexLabel)
         self.addSubview(handleView)
@@ -297,7 +291,7 @@ open class ChromaColorPicker: UIControl {
 
         let innerHeight = (CGFloat.pi*innerRadius)/subdivisions //height of the inner wall for each segment
         let outterHeight = (CGFloat.pi*outerRadius)/subdivisions
-        
+
         let segment = UIBezierPath()
         segment.move(to: CGPoint(x: innerRadius, y: -innerHeight/2))
         segment.addLine(to: CGPoint(x: innerRadius, y: innerHeight/2))
@@ -383,7 +377,6 @@ open class ChromaColorPicker: UIControl {
         let linePath = UIBezierPath()
         linePath.move(to: addButton.center)
         linePath.addLine(to: positionOnWheelFromAngle(currentAngle))
-        handleLine.path = linePath.cgPath
     }
     
     /*
@@ -391,7 +384,8 @@ open class ChromaColorPicker: UIControl {
     */
     func layoutHexLabel(){
         hexLabel.frame = CGRect(x: 0, y: 0, width: addButton.bounds.width*1.5, height: addButton.bounds.height/3)
-        hexLabel.center = CGPoint(x: self.bounds.midX, y: (addButton.frame.origin.y + (padding + handleView.frame.height/2 + stroke/2))/1.75) //Divided by 1.75 not 2 to make it a bit lower
+        hexLabel.center = CGPoint(x: self.bounds.midX,
+                                  y: (addButton.frame.origin.y + padding + (handleView.frame.height + stroke) / 2.0) / 1.75) //Divided by 1.75 not 2 to make it a bit lower
         hexLabel.font = UIFont(name: "Menlo-Regular", size: hexLabel.bounds.height)
     }
     
@@ -409,7 +403,7 @@ open class ChromaColorPicker: UIControl {
         
 
         let sliderSize = CGSize(width: deltaX * 0.75, height: 0.08 * (bounds.height - padding*2))//bounds.height
-        shadeSlider.frame = CGRect(x: bounds.midX - sliderSize.width/2, y: pointLeft.y - sliderSize.height/2, width: sliderSize.width, height: sliderSize.height)
+        shadeSlider.frame = CGRect(x: bounds.midX - sliderSize.width/2, y: self.frame.height - sliderSize.height, width: sliderSize.width, height: sliderSize.height)
         shadeSlider.handleCenterX = shadeSlider.bounds.width/2 //set handle starting position
         shadeSlider.layoutLayerFrames() //call sliders' layout function
     }

@@ -349,8 +349,12 @@ open class ChromaColorPicker: UIControl {
     }
     
     open func layoutAddButton(){
-        let addButtonSize = CGSize(width: self.bounds.width/5, height: self.bounds.height/5)
-        addButton.frame = CGRect(x: self.bounds.midX - addButtonSize.width/2, y: self.bounds.midY - addButtonSize.height/2, width: addButtonSize.width, height: addButtonSize.height)
+        let addButtonSize = CGSize(width: self.bounds.width/8, height: self.bounds.height/8)
+
+        let xposition = self.bounds.size.width - 24 - addButtonSize.width / 2
+        let yposition = self.bounds.size.height - 24 - addButtonSize.height / 2
+        addButton.frame = CGRect(x: xposition, y: yposition, width: addButtonSize.width, height: addButtonSize.height)
+//        addButton.frame = CGRect(x: self.bounds.midX - addButtonSize.width/2, y: self.bounds.midY - addButtonSize.height/2, width: addButtonSize.width, height: addButtonSize.height)
     }
     
     /*

@@ -294,10 +294,9 @@
 			};
 			buildConfigurationList = 35C376C81D5CF5300069D7A1 /* Build configuration list for PBXProject "ChromaColorPicker-Demo" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);

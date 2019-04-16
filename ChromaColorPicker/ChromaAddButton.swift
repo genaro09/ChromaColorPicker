@@ -36,7 +36,7 @@ open class ChromaAddButton: UIButton {
     override open var frame: CGRect{ //update on frame change
         didSet{
             self.layoutCircleLayer()
-            self.layoutPlusIconLayer()
+//            self.layoutPlusIconLayer()
         }
     }
     open var circleLayer: CAShapeLayer?

@@ -74,7 +74,11 @@ open class ChromaColorPicker: UIControl {
         super.init(coder: aDecoder)
         self.commonInit()
     }
-    
+
+    open func selectColor() {
+        addButtonPressed(addButton)
+    }
+
     private func commonInit(){
         self.backgroundColor = UIColor.clear
         

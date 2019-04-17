@@ -49,7 +49,7 @@ open class ChromaShadeSlider: UIControl {
     
     public let trackLayer = ChromaSliderTrackLayer()
     public let handleView = ChromaHandle()
-    open var handleWidth: CGFloat{ return self.bounds.height }
+    open var handleWidth: CGFloat{ return self.bounds.width * 0.08 }
     open var handleCenterX: CGFloat = 0.0
     open var delegate: ChromaShadeSliderDelegate?
     

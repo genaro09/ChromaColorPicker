@@ -285,7 +285,8 @@ open class ChromaColorPicker: UIControl {
     */
     private func drawCircleRing(in context: CGContext?, outerRadius: CGFloat, innerRadius: CGFloat, resolution: Float, colorSpace: ColorSpace){
         context?.saveGState()
-        context?.translateBy(x: self.bounds.midX, y: self.bounds.midY) //Move context to center
+        let yPosition = self.bounds.maxY *  0.40816 //  calculate the y position of the circle
+        context?.translateBy(x: self.bounds.midX, y: yPosition) //Move context to center
         
         let subdivisions:CGFloat = CGFloat(resolution * 512) //Max subdivisions of 512
 
@@ -319,7 +320,7 @@ open class ChromaColorPicker: UIControl {
             segment.apply(rotate)
         }
         
-        context?.translateBy(x: -self.bounds.midX, y: -self.bounds.midY) //Move context back to original position
+        context?.translateBy(x: -self.bounds.midX, y: -yPosition) //Move context back to original position
         context?.restoreGState()
     }
     
@@ -349,12 +350,12 @@ open class ChromaColorPicker: UIControl {
     }
     
     open func layoutAddButton(){
-        let addButtonSize = CGSize(width: self.bounds.width/8, height: self.bounds.height/8)
+        let diameter = self.bounds.width * 0.06997
 
+        let addButtonSize = CGSize(width: diameter, height: diameter)
         let xposition = self.bounds.size.width - 24 - addButtonSize.width / 2
         let yposition = self.bounds.size.height - 24 - addButtonSize.height / 2
         addButton.frame = CGRect(x: xposition, y: yposition, width: addButtonSize.width, height: addButtonSize.height)
-//        addButton.frame = CGRect(x: self.bounds.midX - addButtonSize.width/2, y: self.bounds.midY - addButtonSize.height/2, width: addButtonSize.width, height: addButtonSize.height)
     }
     
     /*
@@ -403,11 +404,11 @@ open class ChromaColorPicker: UIControl {
         
         let pointLeft = CGPoint(x: centerPoint.x + insideRadius*CGFloat(cos(7*Double.pi/6)), y: centerPoint.y - insideRadius*CGFloat(sin(7*Double.pi/6)))
         let pointRight = CGPoint(x: centerPoint.x + insideRadius*CGFloat(cos(11*Double.pi/6)), y: centerPoint.y - insideRadius*CGFloat(sin(11*Double.pi/6)))
-        let deltaX = pointRight.x - pointLeft.x //distance on circle between points at 7pi/6 and 11pi/6
-        
-
-        let sliderSize = CGSize(width: deltaX * 0.75, height: 0.08 * (bounds.height - padding*2))//bounds.height
-        shadeSlider.frame = CGRect(x: bounds.midX - sliderSize.width/2, y: self.frame.height - sliderSize.height, width: sliderSize.width, height: sliderSize.height)
+        let xposition: CGFloat = 24
+        let width = bounds.width * 0.696
+        let height = bounds.height * 0.0306
+        let yposition = self.bounds.size.height - xposition - ( height / 2 )
+        shadeSlider.frame = CGRect(x: xposition, y: yposition, width: width, height: height)
         shadeSlider.handleCenterX = shadeSlider.bounds.width/2 //set handle starting position
         shadeSlider.layoutLayerFrames() //call sliders' layout function
     }
@@ -510,7 +511,8 @@ open class ChromaColorPicker: UIControl {
     /* Returns a position centered on the wheel for a given angle */
     private func positionOnWheelFromAngle(_ angle: Float) -> CGPoint{
         let buffer = padding + stroke/2
-        return CGPoint(x: self.bounds.midX + ((radius - buffer) * CGFloat(cos(-angle))), y: self.bounds.midY + ((radius - buffer) * CGFloat(sin(-angle))))
+        let yPosition = self.bounds.maxY *  0.40816 //  calculate the y position of the circle
+        return CGPoint(x: self.bounds.midX + ((radius - buffer) * CGFloat(cos(-angle))), y: yPosition + ((radius - buffer) * CGFloat(sin(-angle))))
     }
 }
 

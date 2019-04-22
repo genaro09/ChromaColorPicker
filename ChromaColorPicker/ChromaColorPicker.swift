@@ -124,7 +124,7 @@ open class ChromaColorPicker: UIControl {
         
         /* Add components to view */
 
-//        drawMarginLines()
+        drawMarginLines()
         self.addSubview(shadeSlider)
         self.addSubview(hexLabel)
         self.addSubview(handleView)

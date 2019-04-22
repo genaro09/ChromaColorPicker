@@ -37,11 +37,11 @@ open class ChromaColorPicker: UIControl {
     open var colorToggleButton: ColorModeToggleButton!
     open var horizontalLine: UIView?
     open var verticalLine: UIView?
-    private var circleminY: CGFloat = 0.0
-    
+
     private var modeIsGrayscale: Bool {
         return colorToggleButton.colorState == .grayscale
     }
+
     private enum ColorSpace {
         case rainbow
         case grayscale
@@ -124,7 +124,7 @@ open class ChromaColorPicker: UIControl {
         
         /* Add components to view */
 
-        drawMarginLines()
+//        drawMarginLines()
         self.addSubview(shadeSlider)
         self.addSubview(hexLabel)
         self.addSubview(handleView)
@@ -437,8 +437,6 @@ open class ChromaColorPicker: UIControl {
         shadeSlider.frame = CGRect(x: xposition, y: yposition, width: width, height: height)
         shadeSlider.handleCenterX = shadeSlider.bounds.width/2 //set handle starting position
         shadeSlider.layoutLayerFrames() //call sliders' layout function
-
-        circleminY = yposition
     }
     
     /*

@@ -78,6 +78,13 @@ open class ChromaColorPicker: UIControl {
         self.commonInit()
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        // draw margin lines
+        drawMarginLines()
+    }
+
     open func selectColor() {
         addButtonPressed(addButton)
     }
@@ -123,8 +130,6 @@ open class ChromaColorPicker: UIControl {
         colorToggleButton.isHidden = !supportsShadesOfGray // default to hiding if not supported
         
         /* Add components to view */
-
-        drawMarginLines()
         self.addSubview(shadeSlider)
         self.addSubview(hexLabel)
         self.addSubview(handleView)

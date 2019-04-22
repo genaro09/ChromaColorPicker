@@ -35,6 +35,9 @@ open class ChromaColorPicker: UIControl {
     open var handleView: ChromaHandle!
     open var addButton: ChromaAddButton!
     open var colorToggleButton: ColorModeToggleButton!
+    open var horizontalLine: UIView?
+    open var verticalLine: UIView?
+    private var circleminY: CGFloat = 0.0
     
     private var modeIsGrayscale: Bool {
         return colorToggleButton.colorState == .grayscale
@@ -120,12 +123,37 @@ open class ChromaColorPicker: UIControl {
         colorToggleButton.isHidden = !supportsShadesOfGray // default to hiding if not supported
         
         /* Add components to view */
-//        self.layer.addSublayer(handleLine)
+
+        drawMarginLines()
         self.addSubview(shadeSlider)
         self.addSubview(hexLabel)
         self.addSubview(handleView)
         self.addSubview(addButton)
         self.addSubview(colorToggleButton)
+    }
+
+    private func drawMarginLines() {
+        // add margin lines
+        let yPosition = self.bounds.maxY *  0.40816
+        let shadeSliderheight = bounds.height * 0.06
+        let circleButtonY = ((radius) * 0.5) + (self.bounds.height * 0.1) + yPosition
+        let shadeSliderY = self.bounds.size.height - 24 - ( shadeSliderheight / 2 )
+        horizontalLine = UIView(frame: CGRect(x: 16.0, y: (shadeSliderY + circleButtonY) * 0.5, width: self.bounds.width - 32, height: 1))
+
+        let lineHeight = bounds.height * 0.06
+        let sliderFinalX = (bounds.width * 0.696) + 16
+
+        let circleDiameter = self.bounds.width * 0.06997
+        let circleInitX = self.bounds.size.width - circleDiameter - 24
+
+        verticalLine = UIView(frame: CGRect(x: (sliderFinalX + circleInitX) * 0.5, y: self.bounds.size.height - 24 - (lineHeight * 0.5), width: 1, height: lineHeight))
+
+        if let view = horizontalLine, let verticalView = verticalLine {
+            view.backgroundColor = #colorLiteral(red: 0.9058823529, green: 0.9058823529, blue: 0.9058823529, alpha: 1)
+            verticalView.backgroundColor = #colorLiteral(red: 0.9058823529, green: 0.9058823529, blue: 0.9058823529, alpha: 1)
+            self.addSubview(verticalView)
+            self.addSubview(view)
+        }
     }
     
     open override func layoutSubviews() {
@@ -355,9 +383,8 @@ open class ChromaColorPicker: UIControl {
     
     open func layoutAddButton(){
         let diameter = self.bounds.width * 0.06997
-
         let addButtonSize = CGSize(width: diameter, height: diameter)
-        let xposition = self.bounds.size.width - 24 - addButtonSize.width / 2
+        let xposition = self.bounds.size.width - 24 - addButtonSize.width
         let yposition = self.bounds.size.height - 24 - addButtonSize.height / 2
         addButton.frame = CGRect(x: xposition, y: yposition, width: addButtonSize.width, height: addButtonSize.height)
     }
@@ -403,18 +430,15 @@ open class ChromaColorPicker: UIControl {
     */
     func layoutShadeSlider(){
         /* Calculate proper length for slider */
-        let centerPoint = CGPoint(x: bounds.midX, y: bounds.midY)
-        let insideRadius = radius - padding
-        
-        let pointLeft = CGPoint(x: centerPoint.x + insideRadius*CGFloat(cos(7*Double.pi/6)), y: centerPoint.y - insideRadius*CGFloat(sin(7*Double.pi/6)))
-        let pointRight = CGPoint(x: centerPoint.x + insideRadius*CGFloat(cos(11*Double.pi/6)), y: centerPoint.y - insideRadius*CGFloat(sin(11*Double.pi/6)))
         let xposition: CGFloat = 24
         let width = bounds.width * 0.696
-        let height = bounds.height * 0.0306
+        let height = bounds.height * 0.06
         let yposition = self.bounds.size.height - xposition - ( height / 2 )
         shadeSlider.frame = CGRect(x: xposition, y: yposition, width: width, height: height)
         shadeSlider.handleCenterX = shadeSlider.bounds.width/2 //set handle starting position
         shadeSlider.layoutLayerFrames() //call sliders' layout function
+
+        circleminY = yposition
     }
     
     /*

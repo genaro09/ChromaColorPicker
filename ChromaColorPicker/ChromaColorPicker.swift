@@ -37,6 +37,7 @@ open class ChromaColorPicker: UIControl {
     open var colorToggleButton: ColorModeToggleButton!
     open var horizontalLine: UIView?
     open var verticalLine: UIView?
+    open var cantMarginLines: Bool = true
 
     private var modeIsGrayscale: Bool {
         return colorToggleButton.colorState == .grayscale
@@ -76,13 +77,6 @@ open class ChromaColorPicker: UIControl {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.commonInit()
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        // draw margin lines
-        drawMarginLines()
     }
 
     open func selectColor() {
@@ -366,6 +360,11 @@ open class ChromaColorPicker: UIControl {
     /* Re-layout view and all its subview and drawings */
     open func layout() {
         self.setNeedsDisplay() //mark view as dirty
+
+        if cantMarginLines {
+            cantMarginLines.toggle()
+            drawMarginLines()
+        }
         
         let minDimension = min(self.bounds.size.width, self.bounds.size.height)
         radius = minDimension/2 - handleSize.width/2 //create radius for new size

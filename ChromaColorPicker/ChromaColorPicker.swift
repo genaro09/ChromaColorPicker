@@ -64,6 +64,7 @@ open class ChromaColorPicker: UIControl {
     open private(set) var radius: CGFloat = 0
     open var stroke: CGFloat = 1
     open var padding: CGFloat = 15
+    open var radiousPercentage: CGFloat = 2.2
     open var handleSize: CGSize{
         get{ return CGSize(width: self.bounds.width * 0.1, height: self.bounds.height * 0.1) }
     }
@@ -87,7 +88,7 @@ open class ChromaColorPicker: UIControl {
         self.backgroundColor = UIColor.clear
         
         let minDimension = min(self.bounds.size.width, self.bounds.size.height)
-        radius = minDimension/2 - handleSize.width/2
+        radius = minDimension/radiousPercentage - handleSize.width/radiousPercentage
         
         /* Setup Handle */
         handleView = ChromaHandle(frame: CGRect(x: 0,y: 0, width: handleSize.width, height: handleSize.height))
@@ -135,9 +136,10 @@ open class ChromaColorPicker: UIControl {
         // add margin lines
         let yPosition = self.bounds.maxY *  0.40816
         let shadeSliderheight = bounds.height * 0.06
-        let circleButtonY = ((radius) * 0.5) + (self.bounds.height * 0.1) + yPosition
-        let shadeSliderY = self.bounds.size.height - 24 - ( shadeSliderheight / 2 )
-        horizontalLine = UIView(frame: CGRect(x: 16.0, y: (shadeSliderY + circleButtonY) * 0.5, width: self.bounds.width - 32, height: 1))
+        let circleButtonY = yPosition + ((radius * 0.5) * 1.4142)
+        let shadeSliderY = self.bounds.size.height - 23 - ( shadeSliderheight / 2 )
+        let middleY = (circleButtonY + shadeSliderY) * 0.5
+        horizontalLine = UIView(frame: CGRect(x: 16.0, y: middleY, width: self.bounds.width - 32, height: 1))
 
         let lineHeight = bounds.height * 0.06
         let sliderFinalX = (bounds.width * 0.696) + 16
@@ -367,7 +369,7 @@ open class ChromaColorPicker: UIControl {
         }
         
         let minDimension = min(self.bounds.size.width, self.bounds.size.height)
-        radius = minDimension/2 - handleSize.width/2 //create radius for new size
+        radius = minDimension/radiousPercentage - handleSize.width/radiousPercentage //create radius for new size
         
         self.layoutAddButton()
         
